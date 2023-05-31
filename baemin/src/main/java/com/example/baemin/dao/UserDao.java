@@ -42,4 +42,16 @@ public class UserDao {
 
         return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
+
+    public long getUserIdByEmail(String email) {
+        String sql = "select user_id from user where email=:email and status='active'";
+        Map<String, Object> param = Map.of("email", email);
+        return jdbcTemplate.queryForObject(sql, param, long.class);
+    }
+
+    public String getPasswordByUserId(Long userId) {
+        String sql = "select password from user where user_id=:userId and status='active'";
+        Map<String, Object> param = Map.of("userId", userId);
+        return jdbcTemplate.queryForObject(sql, param, String.class);
+    }
 }

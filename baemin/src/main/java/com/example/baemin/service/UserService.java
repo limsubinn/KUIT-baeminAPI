@@ -2,6 +2,8 @@ package com.example.baemin.service;
 
 import com.example.baemin.common.exception.UserException;
 import com.example.baemin.dao.UserDao;
+import com.example.baemin.dto.user.LoginUserRequest;
+import com.example.baemin.dto.user.LoginUserResponse;
 import com.example.baemin.dto.user.PostUserRequest;
 import com.example.baemin.dto.user.PostUserResponse;
 import lombok.RequiredArgsConstructor;
@@ -9,8 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import static com.example.baemin.common.response.status.BaseExceptionResponseStatus.DUPLICATE_EMAIL;
-import static com.example.baemin.common.response.status.BaseExceptionResponseStatus.DUPLICATE_NICKNAME;
+import static com.example.baemin.common.response.status.BaseExceptionResponseStatus.*;
 
 @Slf4j
 @Service
@@ -46,6 +47,29 @@ public class UserService {
     private void validateNickname(String nickname) {
         if (userDao.hasDuplicateNickName(nickname)) {
             throw new UserException(DUPLICATE_NICKNAME);
+        }
+    }
+
+    public LoginUserResponse login(LoginUserRequest loginUserRequest) {
+        log.info("[UserService.createUser]");
+
+        // get userId
+        Long userId = getUserIdByEmail(loginUserRequest.getEmail());
+
+        // userId, password 일치 여부 확인
+        matchUser(userId, loginUserRequest.getPassword());
+
+        return new LoginUserResponse(userId);
+    }
+
+    public long getUserIdByEmail(String email) {
+        return userDao.getUserIdByEmail(email);
+    }
+
+    private void matchUser(Long userId, String password) {
+        String encodedPassword = userDao.getPasswordByUserId(userId);
+        if (!passwordEncoder.matches(password, encodedPassword)) {
+            throw new UserException(PASSWORD_NO_MATCH);
         }
     }
 
