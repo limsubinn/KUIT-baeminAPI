@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class LoginUserRequest {
+public class PostLoginRequest {
 
     @NotBlank(message = "email: {NotBlank}")
     private String email;

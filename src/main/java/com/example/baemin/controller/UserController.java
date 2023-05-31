@@ -2,10 +2,7 @@ package com.example.baemin.controller;
 
 import com.example.baemin.common.exception.UserException;
 import com.example.baemin.common.response.BaseResponse;
-import com.example.baemin.dto.user.LoginUserRequest;
-import com.example.baemin.dto.user.LoginUserResponse;
-import com.example.baemin.dto.user.PostUserRequest;
-import com.example.baemin.dto.user.PostUserResponse;
+import com.example.baemin.dto.user.*;
 import com.example.baemin.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,13 +30,26 @@ public class UserController {
         return new BaseResponse<>(userService.signUp(postUserRequest));
     }
 
-    @GetMapping("/login")
-    public BaseResponse<LoginUserResponse> login(@Validated @RequestBody LoginUserRequest loginUserRequest, BindingResult bindingResult) {
+    @PostMapping("/login")
+    public BaseResponse<PostLoginResponse> login(@Validated @RequestBody PostLoginRequest postLoginRequest, BindingResult bindingResult) {
         log.info("[UserController.login]");
         if (bindingResult.hasErrors()) {
             throw new UserException(INVALID_USER_VALUE, getErrorMessages(bindingResult));
         }
-        return new BaseResponse<>(userService.login(loginUserRequest));
+        return new BaseResponse<>(userService.login(postLoginRequest));
+    }
+
+    @PatchMapping("/{userId}/nickname")
+    public BaseResponse<String> updateNickname(@PathVariable long userId,
+                                               @Validated @RequestBody PatchNicknameRequest patchNicknameRequest, BindingResult bindingResult) {
+        log.info("[UserController.updateNickname]");
+        
+        if (bindingResult.hasErrors()) {
+            throw new UserException(INVALID_USER_VALUE, getErrorMessages(bindingResult));
+        }
+
+        userService.updateNickname(userId, patchNicknameRequest.getNickname());
+        return new BaseResponse<>(null);
     }
 
 }
