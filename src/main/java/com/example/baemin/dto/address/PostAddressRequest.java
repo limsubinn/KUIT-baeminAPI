@@ -1,4 +1,4 @@
-package com.example.baemin.dto.user;
+package com.example.baemin.dto.address;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,9 +26,9 @@ public class PostAddressRequest {
     private String type;
 
     @NotNull(message = "x: {NotNull}")
-    private long x;
+    private double x;
 
     @NotNull(message = "y: {NotNull}")
-    private long y;
+    private double y;
 
 }

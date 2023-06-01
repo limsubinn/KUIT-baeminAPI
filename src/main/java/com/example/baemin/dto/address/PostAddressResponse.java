@@ -1,4 +1,4 @@
-package com.example.baemin.dto.user;
+package com.example.baemin.dto.address;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
