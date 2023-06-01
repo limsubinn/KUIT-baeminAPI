@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static com.example.baemin.common.response.status.BaseExceptionResponseStatus.INVALID_ADDRESS_VALUE;
-import static com.example.baemin.common.response.status.BaseExceptionResponseStatus.INVALID_USER_VALUE;
 import static com.example.baemin.util.BindingResultUtils.getErrorMessages;
 
 @Slf4j
