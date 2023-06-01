@@ -10,6 +10,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.example.baemin.common.response.status.BaseExceptionResponseStatus.INVALID_USER_VALUE;
 import static com.example.baemin.util.BindingResultUtils.getErrorMessages;
 
@@ -58,6 +60,12 @@ public class UserController {
 
         userService.deleteUser(userId);
         return new BaseResponse<>(null);
+    }
+
+    @GetMapping("/{userId}/address")
+    public BaseResponse<List<GetAddressResponse>> getAddress(@PathVariable long userId) {
+        log.info("[AddressController.get]");
+        return new BaseResponse<>(userService.getAddress(userId));
     }
 
 }

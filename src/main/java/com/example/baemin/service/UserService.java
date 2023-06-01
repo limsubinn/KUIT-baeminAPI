@@ -2,15 +2,15 @@ package com.example.baemin.service;
 
 import com.example.baemin.common.exception.DatabaseException;
 import com.example.baemin.common.exception.UserException;
+import com.example.baemin.dao.AddressDao;
 import com.example.baemin.dao.UserDao;
-import com.example.baemin.dto.user.PostLoginRequest;
-import com.example.baemin.dto.user.PostLoginResponse;
-import com.example.baemin.dto.user.PostUserRequest;
-import com.example.baemin.dto.user.PostUserResponse;
+import com.example.baemin.dto.user.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static com.example.baemin.common.response.status.BaseExceptionResponseStatus.*;
 
@@ -20,6 +20,7 @@ import static com.example.baemin.common.response.status.BaseExceptionResponseSta
 public class UserService {
 
     private final UserDao userDao;
+    private final AddressDao addressDao;
     private final PasswordEncoder passwordEncoder;
 
     public PostUserResponse signUp(PostUserRequest postUserRequest) {
@@ -78,6 +79,15 @@ public class UserService {
         if (affectedRows != 1) { // db error
             throw new DatabaseException(DATABASE_ERROR);
         }
+    }
+
+    public List<GetAddressResponse> getAddress(Long userId) {
+        log.info("[UserService.getAddress]");
+
+        // userId 검사
+        validateUser(userId);
+
+        return addressDao.getAddress(userId);
     }
 
     private void validateEmail(String email) {

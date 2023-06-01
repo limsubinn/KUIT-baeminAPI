@@ -1,6 +1,6 @@
 package com.example.baemin.dao;
 
-import com.example.baemin.dto.address.GetAddressResponse;
+import com.example.baemin.dto.user.GetAddressResponse;
 import com.example.baemin.dto.address.PostAddressRequest;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;

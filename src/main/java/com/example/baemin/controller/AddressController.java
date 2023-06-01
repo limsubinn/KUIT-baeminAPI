@@ -2,7 +2,6 @@ package com.example.baemin.controller;
 
 import com.example.baemin.common.exception.AddressException;
 import com.example.baemin.common.response.BaseResponse;
-import com.example.baemin.dto.address.GetAddressResponse;
 import com.example.baemin.dto.address.PatchStatusRequest;
 import com.example.baemin.dto.address.PostAddressRequest;
 import com.example.baemin.dto.address.PostAddressResponse;
@@ -37,12 +36,6 @@ public class AddressController {
         return new BaseResponse<>(addressService.create(postAddressRequest));
     }
 
-    @GetMapping("/{userId}")
-    public BaseResponse<List<GetAddressResponse>> getAddress(@PathVariable long userId) {
-        log.info("[AddressController.get]");
-        return new BaseResponse<>(addressService.getAddress(userId));
-    }
-
     @PatchMapping("/{addressId}/status")
     public BaseResponse<String> updateStatus(@PathVariable long addressId,
                                              @Validated @RequestBody PatchStatusRequest patchStatusRequest, BindingResult bindingResult) {
@@ -55,4 +48,5 @@ public class AddressController {
         addressService.updateStatus(addressId, patchStatusRequest.getStatus());
         return new BaseResponse<>(null);
     }
+
 }

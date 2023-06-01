@@ -5,15 +5,11 @@ import com.example.baemin.common.exception.DatabaseException;
 import com.example.baemin.common.exception.UserException;
 import com.example.baemin.dao.AddressDao;
 import com.example.baemin.dao.UserDao;
-import com.example.baemin.dto.address.GetAddressResponse;
 import com.example.baemin.dto.address.PostAddressRequest;
 import com.example.baemin.dto.address.PostAddressResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Map;
 
 import static com.example.baemin.common.response.status.BaseExceptionResponseStatus.*;
 
@@ -38,15 +34,6 @@ public class AddressService {
         long addressId = addressDao.createAddress(postAddressRequest);
 
         return new PostAddressResponse(addressId);
-    }
-
-    public List<GetAddressResponse> getAddress(Long userId) {
-        log.info("[AddressService.getAddress]");
-
-        // userId 검사
-        validateUser(userId);
-
-        return addressDao.getAddress(userId);
     }
 
     public void updateStatus(long addressId, String status) {
