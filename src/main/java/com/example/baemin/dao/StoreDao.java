@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class StoreDao {
@@ -23,6 +24,12 @@ public class StoreDao {
                 (rs, rowNum) -> new GetCategoryResponse(
                         rs.getString("category"))
         );
+    }
+
+    public boolean hasStore(Long storeId) {
+        String sql = "select exists(select store_id from store where store_id=:storeId)";
+        Map<String, Object> param = Map.of("storeId", storeId);
+        return Boolean.FALSE.equals(jdbcTemplate.queryForObject(sql, param, boolean.class));
     }
 
 }

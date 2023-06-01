@@ -40,7 +40,11 @@ public enum BaseExceptionResponseStatus implements ResponseStatus {
     INVALID_ADDRESS_VALUE(6000, HttpStatus.BAD_REQUEST.value(), "주소 등록 요청에서 잘못된 값이 존재합니다."),
     INVALID_ADDRESS_TYPE(6001, HttpStatus.BAD_REQUEST.value(), "잘못된 주소 타입 값입니다. (home, company, etc)"),
     ADDRESS_NOT_FOUND(6003, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 주소입니다."),
-    INVALID_ADDRESS_STATUS(6004, HttpStatus.BAD_REQUEST.value(), "잘못된 주소 상태 값입니다. (Y/N)");
+    INVALID_ADDRESS_STATUS(6004, HttpStatus.BAD_REQUEST.value(), "잘못된 주소 상태 값입니다. (Y/N)"),
+
+    // 7000: Store 오류
+    INVALID_STORE_VALUE(7000, HttpStatus.BAD_REQUEST.value(), "가게 등록 요청에서 잘못된 값이 존재합니다."),
+    STORE_NOT_FOUND(7003, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 가게입니다.");
 
     private final int code;
     private final int status;
