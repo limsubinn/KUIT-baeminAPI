@@ -64,6 +64,16 @@ public class UserService {
         }
     }
 
+    public void deleteUser(long userId) {
+        log.info("[UserService.deleteUser]");
+
+        // status = 'deleted' 변경
+        int affectedRows = userDao.deleteUser(userId);
+        if (affectedRows != 1) { // db error
+            throw new DatabaseException(DATABASE_ERROR);
+        }
+    }
+
     private void validateEmail(String email) {
         if (userDao.hasDuplicateEmail(email)) {
             throw new UserException(DUPLICATE_EMAIL);

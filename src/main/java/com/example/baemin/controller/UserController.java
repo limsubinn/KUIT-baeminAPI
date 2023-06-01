@@ -43,12 +43,20 @@ public class UserController {
     public BaseResponse<String> updateNickname(@PathVariable long userId,
                                                @Validated @RequestBody PatchNicknameRequest patchNicknameRequest, BindingResult bindingResult) {
         log.info("[UserController.updateNickname]");
-        
+
         if (bindingResult.hasErrors()) {
             throw new UserException(INVALID_USER_VALUE, getErrorMessages(bindingResult));
         }
 
         userService.updateNickname(userId, patchNicknameRequest.getNickname());
+        return new BaseResponse<>(null);
+    }
+
+    @PatchMapping("/{userId}/deleted")
+    public BaseResponse<String> deleteUser(@PathVariable long userId) {
+        log.info("[UserController.deleteUser]");
+
+        userService.deleteUser(userId);
         return new BaseResponse<>(null);
     }
 
