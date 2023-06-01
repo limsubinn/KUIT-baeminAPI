@@ -3,13 +3,11 @@ package com.example.baemin.controller;
 import com.example.baemin.common.response.BaseResponse;
 import com.example.baemin.dto.store.GetCategoryResponse;
 import com.example.baemin.dto.store.GetMenuResponse;
+import com.example.baemin.dto.store.GetStoreResponse;
 import com.example.baemin.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,6 +18,27 @@ import java.util.List;
 public class StoreController {
 
     private final StoreService storeService;
+
+    @GetMapping("")
+    public BaseResponse<List<GetStoreResponse>> getStores
+            (@RequestParam(required = false, value = "delivery-tips") String deliveryTip,
+             @RequestParam(required = false, value = "least-order-price") String leastOrderPrice) {
+        log.info("[StoreController.getStores]");
+
+        if ((deliveryTip == null) && (leastOrderPrice != null)) { // 최소주문금액만
+            return new BaseResponse<>(storeService.getStoresByPrice(leastOrderPrice));
+        }
+
+        if ((deliveryTip != null) && (leastOrderPrice == null)) { // 배달팁만
+            return new BaseResponse<>(storeService.getStoresByTip(deliveryTip));
+        }
+
+        if ((deliveryTip != null) && (leastOrderPrice != null)) { // 최소주문금액 & 배달팁
+            return new BaseResponse<>(storeService.getStoresByTipAndPrice(deliveryTip, leastOrderPrice));
+        }
+
+        return new BaseResponse<>(storeService.getStores());
+    }
 
     @GetMapping("/categories")
     public BaseResponse<List<GetCategoryResponse>> getCategories() {

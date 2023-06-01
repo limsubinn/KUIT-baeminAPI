@@ -44,6 +44,7 @@ public enum BaseExceptionResponseStatus implements ResponseStatus {
 
     // 7000: Store 오류
     INVALID_STORE_VALUE(7000, HttpStatus.BAD_REQUEST.value(), "가게 등록 요청에서 잘못된 값이 존재합니다."),
+    INVALID_STORE_SORTED_VALUE(7001, HttpStatus.BAD_REQUEST.value(), "잘못된 요청 파라미터 값입니다. (정수)"),
     STORE_NOT_FOUND(7003, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 가게입니다.");
 
     private final int code;
