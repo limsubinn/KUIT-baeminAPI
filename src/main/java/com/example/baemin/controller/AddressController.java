@@ -28,9 +28,11 @@ public class AddressController {
     @PostMapping("")
     public BaseResponse<PostAddressResponse> create(@Validated @RequestBody PostAddressRequest postAddressRequest, BindingResult bindingResult) {
         log.info("[AddressController.create]");
+
         if (bindingResult.hasErrors()) {
             throw new AddressException(INVALID_ADDRESS_VALUE, getErrorMessages(bindingResult));
         }
+
         return new BaseResponse<>(addressService.create(postAddressRequest));
     }
 }

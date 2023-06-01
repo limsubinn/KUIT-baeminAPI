@@ -1,6 +1,6 @@
 package com.example.baemin.dto.user;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PatchNicknameRequest {
 
-    @NotNull(message = "nickname: {NotNull}")
+    @NotBlank(message = "nickname: {NotBlank}")
     private String nickname;
 
 }

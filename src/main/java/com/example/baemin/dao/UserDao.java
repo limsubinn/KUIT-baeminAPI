@@ -55,6 +55,12 @@ public class UserDao {
         return jdbcTemplate.queryForObject(sql, param, String.class);
     }
 
+    public boolean hasUser(Long userId) {
+        String sql = "select exists(select user_id from user where user_id=:userId)";
+        Map<String, Object> param = Map.of("userId", userId);
+        return Boolean.FALSE.equals(jdbcTemplate.queryForObject(sql, param, boolean.class));
+    }
+
     public int updateNickname(long userId, String nickname) {
         String sql = "update user set nickname=:nickname where user_id=:userId";
         Map<String, Object> param = Map.of(

@@ -54,6 +54,9 @@ public class UserService {
     public void updateNickname(long userId, String nickname) {
         log.info("[UserService.updateNickname]");
 
+        // userId 검사
+        validateUser(userId);
+
         // 닉네임 중복 검사
         validateNickname(nickname);
 
@@ -66,6 +69,9 @@ public class UserService {
 
     public void deleteUser(long userId) {
         log.info("[UserService.deleteUser]");
+
+        // userId 검사
+        validateUser(userId);
 
         // status = 'deleted' 변경
         int affectedRows = userDao.deleteUser(userId);
@@ -86,6 +92,12 @@ public class UserService {
         }
     }
 
+    private void validateUser(Long userId) {
+        if (userDao.hasUser(userId)) {
+            throw new UserException(USER_NOT_FOUND);
+        }
+    }
+
     public long getUserIdByEmail(String email) {
         return userDao.getUserIdByEmail(email);
     }
@@ -96,7 +108,5 @@ public class UserService {
             throw new UserException(PASSWORD_NO_MATCH);
         }
     }
-
-
 
 }
