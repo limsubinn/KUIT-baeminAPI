@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.lang.Nullable;
 
 @Getter
 @Setter
@@ -19,7 +20,7 @@ public class PostAddressRequest {
     @Length(max = 100, message = "defaultAddress: 최대 {max}자까지 가능합니다")
     private String defaultAddress;
 
-    @NotBlank(message = "detailAddress: {NotBlank}")
+    @Nullable
     @Length(max = 100, message = "detailAddress: 최대 {max}자까지 가능합니다")
     private String detailAddress;
 
