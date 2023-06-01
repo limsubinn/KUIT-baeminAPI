@@ -52,4 +52,18 @@ public class AddressDao {
         );
     }
 
+    public int updateStatus(long addressId, String status) {
+        String sql = "update address set status=:status where address_id=:addressId";
+        Map<String, Object> param = Map.of(
+                "status", status,
+                "addressId", addressId);
+        return jdbcTemplate.update(sql, param);
+    }
+
+    public boolean hasAddress(Long addressId) {
+        String sql = "select exists(select address_id from address where address_id=:addressId)";
+        Map<String, Object> param = Map.of("addressId", addressId);
+        return Boolean.FALSE.equals(jdbcTemplate.queryForObject(sql, param, boolean.class));
+    }
+
 }

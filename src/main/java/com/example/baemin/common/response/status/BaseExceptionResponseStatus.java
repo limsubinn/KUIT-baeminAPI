@@ -32,13 +32,15 @@ public enum BaseExceptionResponseStatus implements ResponseStatus {
     INVALID_USER_VALUE(5000, HttpStatus.BAD_REQUEST.value(), "회원가입 요청에서 잘못된 값이 존재합니다."),
     DUPLICATE_EMAIL(5001, HttpStatus.BAD_REQUEST.value(), "이미 존재하는 이메일입니다."),
     DUPLICATE_NICKNAME(5002, HttpStatus.BAD_REQUEST.value(), "이미 존재하는 닉네임입니다."),
-    USER_NOT_FOUND(4003, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 회원입니다."),
-    PASSWORD_NO_MATCH(4004, HttpStatus.BAD_REQUEST.value(), "비밀번호가 일치하지 않습니다."),
-    INVALID_USER_STATUS(4005, HttpStatus.BAD_REQUEST.value(), "잘못된 회원 status 값입니다."),
+    USER_NOT_FOUND(5003, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 회원입니다."),
+    PASSWORD_NO_MATCH(5004, HttpStatus.BAD_REQUEST.value(), "비밀번호가 일치하지 않습니다."),
+    INVALID_USER_STATUS(5005, HttpStatus.BAD_REQUEST.value(), "잘못된 회원 status 값입니다."),
 
     // 6000: Address 오류
     INVALID_ADDRESS_VALUE(6000, HttpStatus.BAD_REQUEST.value(), "주소 등록 요청에서 잘못된 값이 존재합니다."),
-    INVALID_ADDRESS_TYPE(6001, HttpStatus.BAD_REQUEST.value(), "잘못된 주소 타입 값입니다.");
+    INVALID_ADDRESS_TYPE(6001, HttpStatus.BAD_REQUEST.value(), "잘못된 주소 타입 값입니다. (home, company, etc)"),
+    ADDRESS_NOT_FOUND(6003, HttpStatus.BAD_REQUEST.value(), "존재하지 않는 주소입니다."),
+    INVALID_ADDRESS_STATUS(6004, HttpStatus.BAD_REQUEST.value(), "잘못된 주소 상태 값입니다. (Y/N)");
 
     private final int code;
     private final int status;
