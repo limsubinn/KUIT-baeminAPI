@@ -1,4 +1,4 @@
-package com.example.baemin.dto.user;
+package com.example.baemin.dto.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,4 +7,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class PostLoginResponse {
     private long userId;
+    private String jwt;
 }

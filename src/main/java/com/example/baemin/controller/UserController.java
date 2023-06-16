@@ -32,15 +32,6 @@ public class UserController {
         return new BaseResponse<>(userService.signUp(postUserRequest));
     }
 
-    @PostMapping("/login")
-    public BaseResponse<PostLoginResponse> login(@Validated @RequestBody PostLoginRequest postLoginRequest, BindingResult bindingResult) {
-        log.info("[UserController.login]");
-        if (bindingResult.hasErrors()) {
-            throw new UserException(INVALID_USER_VALUE, getErrorMessages(bindingResult));
-        }
-        return new BaseResponse<>(userService.login(postLoginRequest));
-    }
-
     @PatchMapping("/{userId}/nickname")
     public BaseResponse<String> updateNickname(@PathVariable long userId,
                                                @Validated @RequestBody PatchNicknameRequest patchNicknameRequest, BindingResult bindingResult) {

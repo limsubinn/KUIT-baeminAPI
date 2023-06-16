@@ -45,18 +45,6 @@ public class UserService {
         return new PostUserResponse(userId, jwt);
     }
 
-    public PostLoginResponse login(PostLoginRequest postLoginRequest) {
-        log.info("[UserService.createUser]");
-
-        // get userId
-        Long userId = getUserIdByEmail(postLoginRequest.getEmail());
-
-        // userId, password 일치 여부 확인
-        matchUser(userId, postLoginRequest.getPassword());
-
-        return new PostLoginResponse(userId);
-    }
-
     public void updateNickname(long userId, String nickname) {
         log.info("[UserService.updateNickname]");
 
@@ -110,17 +98,6 @@ public class UserService {
     private void validateUser(Long userId) {
         if (userDao.hasUser(userId)) {
             throw new UserException(USER_NOT_FOUND);
-        }
-    }
-
-    public long getUserIdByEmail(String email) {
-        return userDao.getUserIdByEmail(email);
-    }
-
-    private void matchUser(Long userId, String password) {
-        String encodedPassword = userDao.getPasswordByUserId(userId);
-        if (!passwordEncoder.matches(password, encodedPassword)) {
-            throw new UserException(PASSWORD_NO_MATCH);
         }
     }
 

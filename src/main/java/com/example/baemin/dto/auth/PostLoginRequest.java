@@ -1,4 +1,4 @@
-package com.example.baemin.dto.user;
+package com.example.baemin.dto.auth;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
