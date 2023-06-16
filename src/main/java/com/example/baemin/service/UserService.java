@@ -5,6 +5,7 @@ import com.example.baemin.common.exception.UserException;
 import com.example.baemin.dao.AddressDao;
 import com.example.baemin.dao.UserDao;
 import com.example.baemin.dto.user.*;
+import com.example.baemin.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +23,7 @@ public class UserService {
     private final UserDao userDao;
     private final AddressDao addressDao;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     public PostUserResponse signUp(PostUserRequest postUserRequest) {
         log.info("[UserService.createUser]");
@@ -37,7 +39,10 @@ public class UserService {
         // DB insert & userId 반환
         long userId = userDao.createUser(postUserRequest);
 
-        return new PostUserResponse(userId);
+        // JWT 토큰 생성
+        String jwt = jwtTokenProvider.createToken(postUserRequest.getEmail());
+
+        return new PostUserResponse(userId, jwt);
     }
 
     public PostLoginResponse login(PostLoginRequest postLoginRequest) {

@@ -7,4 +7,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class PostUserResponse {
     private long userId;
+    private String jwt;
 }
