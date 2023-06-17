@@ -102,7 +102,7 @@ public class StoreDao {
     public boolean hasStore(Long storeId) {
         String sql = "select exists(select store_id from store where store_id=:storeId)";
         Map<String, Object> param = Map.of("storeId", storeId);
-        return Boolean.FALSE.equals(jdbcTemplate.queryForObject(sql, param, boolean.class));
+        return Boolean.TRUE.equals(jdbcTemplate.queryForObject(sql, param, boolean.class));
     }
 
 }

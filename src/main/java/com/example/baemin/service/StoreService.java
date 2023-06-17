@@ -70,7 +70,7 @@ public class StoreService {
     }
 
     private void validateStore(Long storeId) {
-        if (storeDao.hasStore(storeId)) {
+        if (!storeDao.hasStore(storeId)) {
             throw new StoreException(STORE_NOT_FOUND);
         }
     }
