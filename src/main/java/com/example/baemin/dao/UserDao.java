@@ -1,7 +1,10 @@
 package com.example.baemin.dao;
 
+import com.example.baemin.dto.user.GetAddressResponse;
+import com.example.baemin.dto.user.PostAddressRequest;
 import com.example.baemin.dto.user.PostUserRequest;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -9,6 +12,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -49,17 +53,17 @@ public class UserDao {
         return jdbcTemplate.queryForObject(sql, param, long.class);
     }
 
-    public String getPasswordByUserId(Long userId) {
+    public String getPasswordByUserId(long userId) {
         String sql = "select password from user where user_id=:userId and status='active'";
         Map<String, Object> param = Map.of("userId", userId);
         return jdbcTemplate.queryForObject(sql, param, String.class);
     }
 
-    public boolean hasUser(Long userId) {
-        String sql = "select exists(select user_id from user where user_id=:userId)";
-        Map<String, Object> param = Map.of("userId", userId);
-        return Boolean.FALSE.equals(jdbcTemplate.queryForObject(sql, param, boolean.class));
-    }
+//    public boolean hasUser(Long userId) {
+//        String sql = "select exists(select user_id from user where user_id=:userId)";
+//        Map<String, Object> param = Map.of("userId", userId);
+//        return Boolean.FALSE.equals(jdbcTemplate.queryForObject(sql, param, boolean.class));
+//    }
 
     public int updateNickname(long userId, String nickname) {
         String sql = "update user set nickname=:nickname where user_id=:userId";
@@ -74,4 +78,5 @@ public class UserDao {
         Map<String, Object> param = Map.of("userId", userId);
         return jdbcTemplate.update(sql, param);
     }
+
 }

@@ -1,4 +1,4 @@
-package com.example.baemin.dto.address;
+package com.example.baemin.dto.user;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -13,8 +13,8 @@ import org.springframework.lang.Nullable;
 @NoArgsConstructor
 public class PostAddressRequest {
 
-    @NotNull(message = "userId: {NotNull}")
-    private long userId;
+//    @NotNull(message = "userId: {NotNull}")
+//    private long userId;
 
     @NotBlank(message = "defaultAddress: {NotBlank}")
     @Length(max = 100, message = "defaultAddress: 최대 {max}자까지 가능합니다")

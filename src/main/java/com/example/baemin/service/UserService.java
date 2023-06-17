@@ -1,5 +1,6 @@
 package com.example.baemin.service;
 
+import com.example.baemin.common.exception.AddressException;
 import com.example.baemin.common.exception.DatabaseException;
 import com.example.baemin.common.exception.UserException;
 import com.example.baemin.dao.AddressDao;
@@ -48,8 +49,8 @@ public class UserService {
     public void updateNickname(long userId, String nickname) {
         log.info("[UserService.updateNickname]");
 
-        // userId 검사
-        validateUser(userId);
+//        // userId 검사
+//        validateUser(userId);
 
         // 닉네임 중복 검사
         validateNickname(nickname);
@@ -64,8 +65,8 @@ public class UserService {
     public void deleteUser(long userId) {
         log.info("[UserService.deleteUser]");
 
-        // userId 검사
-        validateUser(userId);
+//        // userId 검사
+//        validateUser(userId);
 
         // status = 'deleted' 변경
         int affectedRows = userDao.deleteUser(userId);
@@ -74,13 +75,47 @@ public class UserService {
         }
     }
 
-    public List<GetAddressResponse> getAddress(Long userId) {
+    public PostAddressResponse createAddress(long userId, PostAddressRequest postAddressRequest) {
+        log.info("[UserService.createAddress]");
+
+//        // userId 검사
+//        validateUser(userId);
+
+        // type 검사
+        validateAddressType(postAddressRequest.getType());
+
+        // DB insert & addressId 반환
+        long addressId = addressDao.createAddress(userId, postAddressRequest);
+
+        return new PostAddressResponse(addressId);
+    }
+
+    public List<GetAddressResponse> getAddress(long userId) {
         log.info("[UserService.getAddress]");
 
-        // userId 검사
-        validateUser(userId);
+//        // userId 검사
+//        validateUser(userId);
 
         return addressDao.getAddress(userId);
+    }
+
+    public void updateStatus(long userId, long addressId, String status) {
+        log.info("[AddressService.updateStatus]");
+
+        // addressId 검사
+        validateAddress(addressId);
+
+        // 회원정보와 주소정보 일치하는지 검사
+        matchUserAddress(userId, addressId);
+
+        // status 값 검사
+        validateAddressStatus(status);
+
+        // 상태 업데이트
+        int affectedRows = addressDao.updateStatus(addressId, status);
+        if (affectedRows != 1) { // db error
+            throw new DatabaseException(DATABASE_ERROR);
+        }
     }
 
     private void validateEmail(String email) {
@@ -95,9 +130,33 @@ public class UserService {
         }
     }
 
-    private void validateUser(Long userId) {
-        if (userDao.hasUser(userId)) {
-            throw new UserException(USER_NOT_FOUND);
+//    private void validateUser(Long userId) {
+//        if (userDao.hasUser(userId)) {
+//            throw new UserException(USER_NOT_FOUND);
+//        }
+//    }
+
+    private void matchUserAddress(long userId, long addressId) {
+        if (!addressDao.matchUser(userId, addressId)) {
+            throw new AddressException(INVALID_ADDRESS_USERID);
+        }
+    }
+
+    private void validateAddress(long addressId) {
+        if (!addressDao.hasAddress(addressId)) {
+            throw new AddressException(ADDRESS_NOT_FOUND);
+        }
+    }
+
+    private void validateAddressType(String type) {
+        if (!(type.equals("home")) && !(type.equals("company")) && !(type.equals("etc"))) {
+            throw new AddressException(INVALID_ADDRESS_TYPE);
+        }
+    }
+
+    private void validateAddressStatus(String status) {
+        if (!(status.equals("Y")) && !(status.equals("N"))) {
+            throw new AddressException(INVALID_ADDRESS_STATUS);
         }
     }
 

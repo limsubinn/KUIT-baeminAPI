@@ -22,7 +22,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(jwtAuthenticationInterceptor)
                 .order(1)
                 .addPathPatterns("/auth/test",
-                        "/users/nickname", "/users/address", "/users/deleted");
+                        "/users/nickname", "/users/address", "/users/address/{addressId}/status", "/users/deleted");
     }
 
     @Override

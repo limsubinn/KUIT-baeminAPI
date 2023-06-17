@@ -1,4 +1,4 @@
-package com.example.baemin.dto.address;
+package com.example.baemin.dto.user;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PatchStatusRequest {
+public class PatchAddressStatusRequest {
 
     @NotBlank(message = "status: {NotBlank}")
     private String status;
