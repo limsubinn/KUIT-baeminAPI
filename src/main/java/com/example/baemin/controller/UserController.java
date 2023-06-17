@@ -1,5 +1,6 @@
 package com.example.baemin.controller;
 
+import com.example.baemin.common.argument_resolver.PreAuthorize;
 import com.example.baemin.common.exception.UserException;
 import com.example.baemin.common.response.BaseResponse;
 import com.example.baemin.dto.user.*;
@@ -32,8 +33,8 @@ public class UserController {
         return new BaseResponse<>(userService.signUp(postUserRequest));
     }
 
-    @PatchMapping("/{userId}/nickname")
-    public BaseResponse<String> updateNickname(@PathVariable long userId,
+    @PatchMapping("/nickname")
+    public BaseResponse<String> updateNickname(@PreAuthorize long userId,
                                                @Validated @RequestBody PatchNicknameRequest patchNicknameRequest, BindingResult bindingResult) {
         log.info("[UserController.updateNickname]");
 
