@@ -24,7 +24,6 @@ public class UserService {
     private final AddressDao addressDao;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
-
     public PostUserResponse signUp(PostUserRequest postUserRequest) {
         log.info("[UserService.createUser]");
 
@@ -44,6 +43,7 @@ public class UserService {
 
         return new PostUserResponse(userId, jwt);
     }
+
 
     public void updateNickname(long userId, String nickname) {
         log.info("[UserService.updateNickname]");

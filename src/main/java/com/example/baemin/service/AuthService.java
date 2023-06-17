@@ -1,6 +1,7 @@
 package com.example.baemin.service;
 
 import com.example.baemin.common.exception.UserException;
+import com.example.baemin.common.exception.jwt.JwtUnauthorizedTokenException;
 import com.example.baemin.dao.UserDao;
 import com.example.baemin.dto.auth.PostLoginRequest;
 import com.example.baemin.dto.auth.PostLoginResponse;
@@ -11,8 +12,7 @@ import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import static com.example.baemin.common.response.status.BaseExceptionResponseStatus.EMAIL_NOT_FOUND;
-import static com.example.baemin.common.response.status.BaseExceptionResponseStatus.PASSWORD_NO_MATCH;
+import static com.example.baemin.common.response.status.BaseExceptionResponseStatus.*;
 
 @Slf4j
 @Service
@@ -51,4 +51,13 @@ public class AuthService {
             throw new UserException(PASSWORD_NO_MATCH);
         }
     }
+
+    public long getUserIdByEmail(String email) {
+        try {
+            return userDao.getUserIdByEmail(email);
+        } catch (IncorrectResultSizeDataAccessException e) {
+            throw new JwtUnauthorizedTokenException(TOKEN_MISMATCH);
+        }
+    }
+
 }
