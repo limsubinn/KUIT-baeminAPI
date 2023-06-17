@@ -46,16 +46,16 @@ public class UserController {
         return new BaseResponse<>(null);
     }
 
-    @PatchMapping("/{userId}/deleted")
-    public BaseResponse<String> deleteUser(@PathVariable long userId) {
+    @PatchMapping("/deleted")
+    public BaseResponse<String> deleteUser(@PreAuthorize long userId) {
         log.info("[UserController.deleteUser]");
 
         userService.deleteUser(userId);
         return new BaseResponse<>(null);
     }
 
-    @GetMapping("/{userId}/address")
-    public BaseResponse<List<GetAddressResponse>> getAddress(@PathVariable long userId) {
+    @GetMapping("/address")
+    public BaseResponse<List<GetAddressResponse>> getAddress(@PreAuthorize long userId) {
         log.info("[AddressController.get]");
         return new BaseResponse<>(userService.getAddress(userId));
     }
