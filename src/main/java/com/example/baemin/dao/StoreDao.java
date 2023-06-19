@@ -18,15 +18,17 @@ public class StoreDao {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public List<GetStoreResponse> getStoresByTipAndPrice(int deliveryTip, int leastOrderPrice) {
+    public List<GetStoreResponse> getStoresByTipAndPrice(int deliveryTip, int leastOrderPrice, long lastId) {
         String sql = "select store.store_id, store.name, store.category, store_delivery.delivery_tip_max, store_delivery.least_order_price " +
                 "from store, store_delivery " +
                 "where store.store_id = store_delivery.store_id " +
-                "and delivery_tip_max <= :deliveryTip and least_order_price <= :leastOrderPrice";
+                "and delivery_tip_max <= :deliveryTip and least_order_price <= :leastOrderPrice " +
+                "and store.store_id > :lastId limit 10";
 
         Map<String, Object> param = Map.of(
                 "deliveryTip", deliveryTip,
-                "leastOrderPrice", leastOrderPrice);
+                "leastOrderPrice", leastOrderPrice,
+                "lastId", lastId);
 
         return jdbcTemplate.query(sql, param,
                 (rs, rowNum) -> new GetStoreResponse(
@@ -38,13 +40,16 @@ public class StoreDao {
         );
     }
 
-    public List<GetStoreResponse> getStoresByTip(int deliveryTip) {
+    public List<GetStoreResponse> getStoresByTip(int deliveryTip, long lastId) {
         String sql = "select store.store_id, store.name, store.category, store_delivery.delivery_tip_max, store_delivery.least_order_price " +
                 "from store, store_delivery " +
                 "where store.store_id = store_delivery.store_id " +
-                "and delivery_tip_max <= :deliveryTip";
+                "and delivery_tip_max <= :deliveryTip " +
+                "and store.store_id > :lastId limit 10";
 
-        Map<String, Object> param = Map.of("deliveryTip", deliveryTip);
+        Map<String, Object> param = Map.of(
+                "deliveryTip", deliveryTip,
+                "lastId", lastId);
 
         return jdbcTemplate.query(sql, param,
                 (rs, rowNum) -> new GetStoreResponse(
@@ -56,13 +61,16 @@ public class StoreDao {
         );
     }
 
-    public List<GetStoreResponse> getStoresByPrice(int leastOrderPrice) {
+    public List<GetStoreResponse> getStoresByPrice(int leastOrderPrice, long lastId) {
         String sql = "select store.store_id, store.name, store.category, store_delivery.delivery_tip_max, store_delivery.least_order_price " +
                 "from store, store_delivery " +
                 "where store.store_id = store_delivery.store_id " +
-                "and least_order_price <= :leastOrderPrice";
+                "and least_order_price <= :leastOrderPrice " +
+                "and store.store_id > :lastId limit 10";
 
-        Map<String, Object> param = Map.of("leastOrderPrice", leastOrderPrice);
+        Map<String, Object> param = Map.of(
+                "leastOrderPrice", leastOrderPrice,
+                "lastId", lastId);
 
         return jdbcTemplate.query(sql, param,
                 (rs, rowNum) -> new GetStoreResponse(
@@ -74,13 +82,15 @@ public class StoreDao {
         );
     }
 
-    public List<GetStoreResponse> getStores() {
+    public List<GetStoreResponse> getStores(long lastId) {
         String sql = "select store.store_id, store.name, store.category, store_delivery.delivery_tip_max, store_delivery.least_order_price " +
                 "from store, store_delivery " +
-                "where store.store_id = store_delivery.store_id";
+                "where store.store_id = store_delivery.store_id " +
+                "and store.store_id > :lastId limit 10";
 
+        Map<String, Object> param = Map.of("lastId", lastId);
 
-        return jdbcTemplate.query(sql,
+        return jdbcTemplate.query(sql, param,
                 (rs, rowNum) -> new GetStoreResponse(
                         rs.getLong("store_id"),
                         rs.getString("name"),

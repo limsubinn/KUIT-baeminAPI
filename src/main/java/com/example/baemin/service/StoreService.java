@@ -23,36 +23,36 @@ public class StoreService {
     private final StoreDao storeDao;
     private final MenuDao menuDao;
 
-    public List<GetStoreResponse> getStoresByTipAndPrice(String deliveryTip, String leastOrderPrice) {
+    public List<GetStoreResponse> getStoresByTipAndPrice(String deliveryTip, String leastOrderPrice, long lastId) {
         log.info("[StoreService.getStoresByTipAndPrice]");
 
         // 정수 변환
         int tip = toInteger(deliveryTip);
         int price = toInteger(leastOrderPrice);
 
-        return storeDao.getStoresByTipAndPrice(tip, price);
+        return storeDao.getStoresByTipAndPrice(tip, price, lastId);
     }
 
-    public List<GetStoreResponse> getStoresByTip(String deliveryTip) {
+    public List<GetStoreResponse> getStoresByTip(String deliveryTip, long lastId) {
         log.info("[StoreService.getStoresByTip]");
 
         // 정수 변환
         int tip = toInteger(deliveryTip);
 
-        return storeDao.getStoresByTip(tip);
+        return storeDao.getStoresByTip(tip, lastId);
     }
 
-    public List<GetStoreResponse> getStoresByPrice(String leastOrderPrice) {
+    public List<GetStoreResponse> getStoresByPrice(String leastOrderPrice, long lastId) {
         log.info("[StoreService.getStoresByPrice]");
 
         // 정수 변환
         int price = toInteger(leastOrderPrice);
 
-        return storeDao.getStoresByPrice(price);
+        return storeDao.getStoresByPrice(price, lastId);
     }
-    public List<GetStoreResponse> getStores() {
+    public List<GetStoreResponse> getStores(long lastId) {
         log.info("[StoreService.getStores]");
-        return storeDao.getStores();
+        return storeDao.getStores(lastId);
     }
 
     public List<GetCategoryResponse> getCategories() {

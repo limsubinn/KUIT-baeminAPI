@@ -25,6 +25,7 @@ public class UserService {
     private final AddressDao addressDao;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+
     public PostUserResponse signUp(PostUserRequest postUserRequest) {
         log.info("[UserService.createUser]");
 
@@ -100,7 +101,7 @@ public class UserService {
     }
 
     public void updateStatus(long userId, long addressId, String status) {
-        log.info("[AddressService.updateStatus]");
+        log.info("[UserService.updateAddressStatus]");
 
         // addressId 검사
         validateAddress(addressId);
